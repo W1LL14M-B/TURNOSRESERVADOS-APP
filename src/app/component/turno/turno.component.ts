@@ -49,63 +49,87 @@ import { TurnoService } from 'src/app/service/turno.service';
   styleUrls: ['./turno.component.css']
 })
 export class TurnoComponent implements OnInit {
-   comercio: string = '';
-  servicio: string = '';
+
+  comercio: string = '';
+  servicios: any[] = [];
+  servicio: any = null;
   fechaInicial: string = '';
   fechaFinal: string = '';
   turnos: any[] = [];
-  comercios: any[] = [];
-  servicios: any[] = [];
+  comercios: any[] = []; 
+  servicioId: string = '';
 
-  constructor(public auth: AuthService,
-    private turnoService: TurnoService
-  ) {}
+  constructor(public auth: AuthService, private turnoService: TurnoService) {}
 
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.cargarComercios();
   }
 
-  cargarComercios() {
-    this.turnoService.getComercios().subscribe({
-      next: data => this.comercios = data,
-      error: err => console.error('Error cargando comercios', err)
-    });
-  }
-
-  cargarServicios() {
-    if (!this.comercio) return;
-    this.turnoService.getServicios(Number(this.comercio)).subscribe({
-      next: data => this.servicios = data,
-      error: err => console.error('Error cargando servicios', err)
-    });
-  } 
 
 
-
-  generarTurno() {
-
-    if (!this.servicio || !this.fechaInicial || !this.fechaFinal) {
-      alert('Por favor complete todos los campos.');
-      return;
+    cargarComercios() {
+      this.turnoService.getComercios().subscribe({
+        next: (data) => {
+          this.comercios = data;
+        },
+        error: (err) => {
+          console.error('Error al cargar comercios', err);
+          alert('No se pudo cargar la lista de comercios.');
+        }
+      });
+    }
+  
+    limpiarComercios() {
+      this.comercios = [];
     }
 
-    this.turnoService.generarTurno(this.fechaInicial, this.fechaFinal, Number(this.servicio)).subscribe({
-      
-     next: (data) => {
-        console.log('Servicios recibidos:', data); // 👈 Aquí ves lo que trae
-      },
-      error: (err) => {
-        console.error('Error al obtener servicios:', err);
+    onComercioChange(event: Event) {
+      const selectElement = event.currentTarget as HTMLSelectElement;
+      const value = selectElement.value;
+      // Aquí puedes manejar el cambio de comercio
+      console.log(value);
+    }
+
+    cargarServicios() {
+      const id = Number(this.comercio);
+      if (!id) {
+        alert('Seleccione un comercio primero.');
+        return;
       }
-    });
+      this.turnoService.getServiciosPorComercio(id).subscribe({
+        next: (data) => {
+          console.log('Servicios cargados:', data);
+          this.servicios = data;
+        },
+        error: (err) => {
+          console.error('Error al cargar servicios', err);
+          alert('No se pudieron cargar los servicios del comercio.');
+        }
+      });
+    }
+    
+    limpiarServicios() {
+      this.servicios = [];
+    }
+
+    generarTurnos() {
+      const idServicio = Number(this.servicioId);
+      if (!idServicio || !this.fechaInicial || !this.fechaFinal) {
+        alert('Todos los campos son obligatorios.');
+        return;
+      }
+    
+      this.turnoService.generarTurnos(this.fechaInicial, this.fechaFinal, idServicio)
+        .subscribe({
+          next: (data) => {
+            this.turnos = data;
+          },
+          error: (err) => {
+            console.error('Error:', err);
+            alert('Error al generar turnos');
+          }
+        });
+    }
+
   }
 
-  /* listarTurnosExistentes() {
-    if (!this.servicio) return;
-    this.turnoService.getTurnos(Number(this.servicio)).subscribe({
-      next: data => this.turnos = data,
-      error: err => console.error('Error listando turnos', err)
-    });
-  } */
-}

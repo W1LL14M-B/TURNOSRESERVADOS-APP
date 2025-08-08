@@ -1,0 +1,32 @@
+/* Contenedor para el input y la etiqueta */
+.input-container {
+    position: relative;
+    margin-top: 20px; /* Para dar espacio a la etiqueta */
+  }
+  
+  /* Estilo de la etiqueta (simulando el placeholder) */
+  .input-container label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #888;
+    pointer-events: none; /* Permite hacer clic a través de la etiqueta */
+    transition: all 0.2s ease-in-out;
+    background-color: white; /* Importante para que no se vea el texto detrás */
+    padding: 0 4px;
+  }
+  
+  /* Cuando el input tiene el foco, la etiqueta se mueve */
+  .input-container input:focus ~ label,
+  /* Cuando el input tiene un valor, la etiqueta se mantiene arriba */
+  .input-container input:not([value=""]) ~ label {
+    top: -10px;
+    font-size: 12px;
+    color: #007bff; /* Color de tu preferencia */
+  }
+  
+  /* Ajuste para el input de tipo date en ciertos navegadores (opcional) */
+  .input-container input[type="date"] {
+    position: relative;
+    z-index: 2; /* Asegura que el input esté por encima */
+  }

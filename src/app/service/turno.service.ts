@@ -6,37 +6,29 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TurnoService {
-
-    private baseUrl = 'http://localhost:8080/api/turnos';
-
+  private apiUrl = 'http://localhost:8080/api/turnos/comercios';
 
   constructor(private http: HttpClient) {}
 
-
-
-   
   getComercios(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/comercios`);
+    return this.http.get<any[]>(this.apiUrl);
   }
 
-  getServicios(idComercio: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/servicios/${idComercio}`);
+  getServiciosPorComercio(idComercio: number): Observable<any[]> {
+    const url = `http://localhost:8080/api/turnos/servicios/${idComercio}`;
+    return this.http.get<any[]>(url);
   }
 
-
-
-  generarTurno(fechaInicio: string, fechaFin: string, idServicio: number): Observable<any[]> {
-    return this.http.post<any[]>(`${this.baseUrl}/generar`, {
-      
+  generarTurnos(fechaInicio: string, fechaFin: string, idServicio: number): Observable<any[]> {
+    const url = 'http://localhost:8080/api/turnos/generar';
+    const body = {
       fechaInicio,
       fechaFin,
       idServicio
-    });
-  }  
+    };
+    return this.http.post<any[]>(url, body);
+  }
 
+  
 
-
- /*  getTurnos(idServicio: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/${idServicio}`);
-  } */
 }
