@@ -1,0 +1,40 @@
+<div class="container mt-5" style="max-width: 400px">
+  <div class="card card-container p-4 shadow">
+    <img
+      id="profile-img"
+      class="profile-img-card mb-3"
+      src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+    />
+
+    <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+    <form (ngSubmit)="onLogin()">
+      <div class="mb-3">
+        <input
+          [(ngModel)]="username"
+          name="username"
+          type="text"
+          placeholder="Usuario"
+          class="form-control"
+          required
+          autofocus
+        />
+      </div>
+
+      <div class="mb-3">
+        <input
+          [(ngModel)]="password"
+          name="password"
+          type="password"
+          placeholder="Contraseña"
+          class="form-control"
+          required
+        />
+      </div>
+
+      <button class="btn btn-primary w-100" (click)="onLogin()">
+        Ingresar
+      </button>
+    </form>
+  </div>
+</div>

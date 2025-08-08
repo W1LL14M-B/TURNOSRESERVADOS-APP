@@ -1,0 +1,152 @@
+<!-- 
+
+<nav class="navbar navbar-light bg-light px-3">
+  <span>Bienvenido, <strong>{{ auth.getUser() }}</strong></span>
+  <button class="btn btn-outline-danger btn-sm" (click)="auth.logout()">Logout</button>
+</nav>
+
+<div class="container mt-4">
+  <h2>Página de Turno</h2>
+  <p>Complete los campos para generar el reporte:</p>
+
+  <form (ngSubmit)="generarTurno()" #turnoForm="ngForm">
+    <div class="row g-3">
+      <div class="col-md-10">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <select [(ngModel)]="comercio" name="comercio" class="form-select">
+              <option value="">Comercio</option>
+              <option value="Can Center">Comercio A</option>
+              <option value="Centro Diseño">Comercio B</option>
+              <option value="Can Center">Can Center</option>
+              <option value="Centro Diseño">Centro Diseño</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <select [(ngModel)]="servicio" name="servicio" class="form-select">
+              <option value="">Servicio</option>
+              <option value="Lavado General">Lavado General</option>
+              <option value="Diseño Cocina">Diseño Cocina</option>
+              <option value="Diseño Cocina">Corte de Cabello</option>
+              <option value="Diseño Cocina">Manicure</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <input type="date" [(ngModel)]="fechaInicial" name="fechaInicial" class="form-control">
+          </div>
+
+          <div class="col-md-6">
+            <input type="date" [(ngModel)]="fechaFinal" name="fechaFinal" class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2 d-flex align-items-center">
+        <button type="submit" class="btn btn-primary w-100">Generar</button>
+      </div>
+    </div>
+  </form>
+
+  
+  <div class="mt-4" *ngIf="turnos.length > 0">
+    <table class="table table-bordered table-striped">
+      <thead class="table-light">
+        <tr>
+          <th>Comercio</th>
+          <th>Servicio</th>
+          <th>Fecha Turno</th>
+          <th>Fecha Inicio</th>
+          <th>Hora Fin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let turno of turnos">
+          <td>{{ turno.comercio }}</td>
+          <td>{{ turno.servicio }}</td>
+          <td>{{ turno.fechaTurno }}</td>
+          <td>{{ turno.fechaInicio }}</td>
+          <td>{{ turno.horaFin }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+ -->
+
+
+ <nav class="navbar navbar-light bg-light px-3">
+  <span>Bienvenido, <strong>{{ auth.getUser() }}</strong></span>
+  <button class="btn btn-outline-danger btn-sm" (click)="auth.logout()">Logout</button>
+</nav>
+
+<div class="container mt-4">
+  <h2>Página de Turno</h2>
+  <p>Complete los campos para generar los turnos:</p>
+
+  <form (ngSubmit)="generarTurno()" #turnoForm="ngForm">
+    <div class="row g-3">
+      <div class="col-md-10">
+        <div class="row g-3">
+          <!-- Comercio -->
+          <div class="col-md-6">
+            <select [(ngModel)]="comercio" name="comercio" class="form-select" (change)="cargarServicios()">
+              <option value="">Seleccione Comercio</option>
+              <option *ngFor="let c of comercios" [value]="c.idComercio">{{ c.nombre }}</option>
+            </select>
+          </div>
+
+          <!-- Servicio -->
+          <div class="col-md-6">
+            <select [(ngModel)]="servicio" name="servicio" class="form-select">
+              <option value="">Seleccione Servicio</option>
+              <option *ngFor="let s of servicios" [value]="s.idServicio">{{ s.nombre }}</option>
+            </select>
+          </div>
+
+          <!-- Fechas -->
+          <div class="col-md-6">
+            <input type="date" [(ngModel)]="fechaInicial" name="fechaInicial" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <input type="date" [(ngModel)]="fechaFinal" name="fechaFinal" class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2 d-flex align-items-center">
+     <button type="button" class="btn btn-primary w-100" (click)="generarTurno()">Generar</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Botón para listar turnos existentes -->
+<!--   <div class="mt-3">
+    <button class="btn btn-secondary" (click)="listarTurnosExistentes()" [disabled]="!servicio">Listar Turnos Existentes</button>
+  </div> -->
+
+  <!-- Tabla de turnos -->
+  <div class="mt-4" *ngIf="turnos.length > 0">
+    <table class="table table-bordered table-striped">
+      <thead class="table-light">
+        <tr>
+          <th>Comercio</th>
+          <th>Servicio</th>
+          <th>Fecha</th>
+          <th>Hora Inicio</th>
+          <th>Hora Fin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let turno of turnos">
+          <td>{{ turno.comercio?.nombre }}</td>
+          <td>{{ turno.servicio?.nombre }}</td>
+          <td>{{ turno.fecha }}</td>
+          <td>{{ turno.horaInicio }}</td>
+          <td>{{ turno.horaFin }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
