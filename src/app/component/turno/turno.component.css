@@ -30,3 +30,18 @@
     position: relative;
     z-index: 2; /* Asegura que el input esté por encima */
   }
+
+  .btn-lg-custom {
+    width: 200px; /* Ajusta el tamaño a tu gusto */
+    height: 50px;
+    font-size: 16px;
+  }
+
+  /* Botones pequeños cuadrados */
+  .btn-sm-square {
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    font-size: 12px;
+    text-align: center;
+  }
