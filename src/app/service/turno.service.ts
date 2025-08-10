@@ -29,6 +29,14 @@ export class TurnoService {
     return this.http.post<any[]>(url, body);
   }
 
+
+  getTurnosExistentes(fechaInicio: string, fechaFin: string, idServicio: number): Observable<any[]> {
+    const url = 'http://localhost:8080/api/turnos/existentes';
+    const body = { fechaInicio, fechaFin, idServicio };
+    return this.http.post<any[]>(url, body);
+  }
+  
+
   
 
 }

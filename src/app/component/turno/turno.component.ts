@@ -131,6 +131,28 @@ export class TurnoComponent implements OnInit {
         });
     }
 
+    cargarTurnosExistentes() {
+      const idServicio = Number(this.servicioId);
+      if (!idServicio || !this.fechaInicial || !this.fechaFinal) {
+        alert('Debe seleccionar servicio y fechas para buscar turnos existentes.');
+        return;
+      }
+    
+      this.turnoService.getTurnosExistentes(this.fechaInicial, this.fechaFinal, idServicio)
+        .subscribe({
+          next: (data) => {
+            // Tomar los últimos 20
+            this.turnos = data.slice(-20);
+            console.log('Últimos turnos:', this.turnos);
+          },
+          error: (err) => {
+            console.error('Error al cargar turnos existentes', err);
+            alert('Error al cargar los turnos existentes.');
+          }
+        });
+    }
+    
+
     
 
   }
